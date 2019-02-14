@@ -1,8 +1,43 @@
 'use strict';
 
 window.addEventListener('load', () => {
+    var table = createZaimSheetTable();
+
+    var selectButton = document.createElement('button');
+    selectButton.classList.add('btn', 'btn-success');
+    selectButton.textContent = 'スプレッドシートをすべて選択';
+    selectButton.addEventListener('click', e => {
+        e.preventDefault();
+        var range = document.createRange();
+        range.selectNodeContents(table);
+        var selection = window.getSelection();
+        selection.empty();
+        selection.addRange(range);
+    });
+
+    var toggleGroup = document.createElement('div');
+    toggleGroup.appendChild(selectButton);
+    toggleGroup.appendChild(table);
+
+    var toggleButton = document.createElement('button');
+    toggleButton.classList.add('btn', 'btn-success');
+    toggleButton.textContent = 'スプレッドシート形式';
+    toggleButton.addEventListener('click', e => {
+        e.preventDefault();
+        toggleGroup.classList.toggle('hide');
+    });
+    toggleGroup.classList.toggle('hide');
+
+    var insertRef = document.getElementById('filter_payment_category_menu');
+    insertRef.parentNode.insertBefore(toggleGroup, insertRef.nextElementSibling);
+    insertRef.parentNode.insertBefore(toggleButton, toggleGroup);
+});
+
+/**
+ * @returns {Element} table element
+ */
+function createZaimSheetTable() {
     var table = document.createElement('table');
-    table.classList.add('hide');
     table.appendChild(createRowWithColumns('th', [
         '日付',
         '大カテゴリ',
@@ -14,7 +49,6 @@ window.addEventListener('load', () => {
         '品目',
         'メモ',
     ]));
-
     document.querySelectorAll('tbody.money-list>tr').forEach(tr => {
         var columns = [
             applyOrEmpty(tr.querySelector('td:nth-child(3)'), e => parseZaimDateString(e.textContent).toLocaleDateString()),
@@ -29,18 +63,8 @@ window.addEventListener('load', () => {
         ];
         table.appendChild(createRowWithColumns('td', columns));
     });
-
-    var toggle = document.createElement('button');
-    toggle.classList.add('btn', 'btn-success');
-    toggle.textContent = 'スプレッドシート形式';
-    toggle.addEventListener('click', () => {
-        table.classList.toggle('hide');
-    });
-
-    var insertRef = document.getElementById('filter_payment_category_menu');
-    insertRef.parentNode.insertBefore(table, insertRef.nextElementSibling);
-    insertRef.parentNode.insertBefore(toggle, insertRef.nextElementSibling);
-});
+    return table;
+}
 
 /**
  * @param {Element} e 
