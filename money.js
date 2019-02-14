@@ -1,25 +1,25 @@
 'use strict';
 
 window.addEventListener('load', () => {
-    var table = createZaimSheetTable();
+    const table = createZaimSheetTable();
 
-    var selectButton = document.createElement('button');
+    const selectButton = document.createElement('button');
     selectButton.classList.add('btn', 'btn-success');
     selectButton.textContent = 'スプレッドシートをすべて選択';
     selectButton.addEventListener('click', e => {
         e.preventDefault();
-        var range = document.createRange();
+        const range = document.createRange();
         range.selectNodeContents(table);
-        var selection = window.getSelection();
+        const selection = window.getSelection();
         selection.empty();
         selection.addRange(range);
     });
 
-    var toggleGroup = document.createElement('div');
+    const toggleGroup = document.createElement('div');
     toggleGroup.appendChild(selectButton);
     toggleGroup.appendChild(table);
 
-    var toggleButton = document.createElement('button');
+    const toggleButton = document.createElement('button');
     toggleButton.classList.add('btn', 'btn-success');
     toggleButton.textContent = 'スプレッドシート形式';
     toggleButton.addEventListener('click', e => {
@@ -28,7 +28,7 @@ window.addEventListener('load', () => {
     });
     toggleGroup.classList.toggle('hide');
 
-    var insertRef = document.getElementById('filter_payment_category_menu');
+    const insertRef = document.getElementById('filter_payment_category_menu');
     insertRef.parentNode.insertBefore(toggleGroup, insertRef.nextElementSibling);
     insertRef.parentNode.insertBefore(toggleButton, toggleGroup);
 });
@@ -37,7 +37,7 @@ window.addEventListener('load', () => {
  * @returns {Element} table element
  */
 function createZaimSheetTable() {
-    var table = document.createElement('table');
+    const table = document.createElement('table');
     table.appendChild(createRowWithColumns('th', [
         '日付',
         '大カテゴリ',
@@ -50,7 +50,7 @@ function createZaimSheetTable() {
         'メモ',
     ]));
     document.querySelectorAll('tbody.money-list>tr').forEach(tr => {
-        var columns = [
+        const columns = [
             applyOrEmpty(tr.querySelector('td:nth-child(3)'), e => parseZaimDateString(e.textContent).toLocaleDateString()),
             applyOrEmpty(tr.querySelector('td:nth-child(4)>span'), e => e.getAttribute('data-title')),
             applyOrEmpty(tr.querySelector('td:nth-child(4)>a'), e => e.textContent),
@@ -84,9 +84,9 @@ function applyOrEmpty(e, f) {
  * @returns {Element}
  */
 function createRowWithColumns(columnTagName, columns) {
-    var tr = document.createElement('tr');
+    const tr = document.createElement('tr');
     columns.forEach(column => {
-        var c = document.createElement(columnTagName);
+        const c = document.createElement(columnTagName);
         c.textContent = column;
         tr.appendChild(c);
     });
@@ -98,7 +98,7 @@ function createRowWithColumns(columnTagName, columns) {
  * @returns {Date}
  */
 function parseZaimDateString(s) {
-    var y = new Date().getFullYear();
-    var p = s.split(/[月日]/);
+    const y = new Date().getFullYear();
+    const p = s.split(/[月日]/);
     return new Date(y, p[0] - 1, p[1]);
 }
