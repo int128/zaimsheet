@@ -9,7 +9,6 @@
                 "https://zaim.net/money?month=*"
             ],
             "js": [
-                "vendor/jquery-3.3.1.min.js",
                 "money.js"
             ]
         }
