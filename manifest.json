@@ -1,7 +1,7 @@
 {
     "name": "zaimsheet",
-    "version": "0.0.1.0",
-    "description": "Zaim Spreadsheet",
+    "version": "1.0.0",
+    "description": "Zaimからスプレッドシートに簡単に転記できます",
     "content_scripts": [
         {
             "matches": [
